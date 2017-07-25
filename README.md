@@ -38,6 +38,9 @@ Both are available via [Homebrew](http://brew.sh/) on Mac OS X
 
 Additional Postgres and [R](https://www.r-project.org/) scripts for analysis are in the <code>analysis/</code> folder, or you can do your own!
 
+1) Run `analysis/my_analysis.sql` without/comment-out the last section of codes (create FeatureCollection) to create tables;
+2) Run only the last section of `analysis/my_analysis.sql` (create FeatureCollection) twice, with `nta_daily_pickups_geomjson` and `nta_daily_dropoffs_geomjson` in the last row; use the results to generate file `sample-geojson.js`.
+
 ## Schema
 
 - `trips` table contains all yellow and green taxi trips, plus Uber pickups from April 2014 through September 2014. Each trip has a `cab_type_id`, which references the `cab_types` table and refers to one of `yellow`, `green`, or `uber`. Each trip maps to a census tract for pickup and dropoff
