@@ -16,15 +16,15 @@ Both are available via [Homebrew](http://brew.sh/) on Mac OS X
 
 ##### 2. Download raw taxi data
 
-`./download_raw_data.sh`
+`./download_raw_data.sh`, which calls `raw_data_urls.txt`.
 
 ##### 3. Initialize database and set up schema
 
-`./initialize_database.sh`
+`./initialize_database.sh`, which calls `create_nyc_taxi_schema.sql`, `nyct2010_15b/nyct2010.shp` and `data/central_park_weather.csv`.
 
 ##### 4. Import taxi data into database and map to census tracts
 
-`./import_trip_data.sh`
+`./import_trip_data.sh`, which calls `populate_yellow_trips.sql`.
 
 ##### 5. Optional: download and import Uber data from FiveThirtyEight's GitHub repository, and TLC for-hire vehicle records
 
