@@ -6,10 +6,16 @@ body {
 	height: 25px;
 	overflow: hidden;
 	width: 100px;
-	position:absolute;
-	top:25px;
-	right:20px;
+	position: absolute;
+	top: 25px;
+}
 
+#dropdown {
+	right: 20px;
+}
+
+#dow-dropdown {
+	right: 130px;
 }
 
 #map {

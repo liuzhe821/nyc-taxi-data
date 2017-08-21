@@ -1,4 +1,8 @@
 let geoJSON; // Global geoJSON variable for easy map repainting
+let p_d; // Global variable representing whether pickups or dropoffs is selected
+let dow; // Global variable representing selected day of week
+let data; // Global var representing data matrix
+
 var map = L.map('map').setView([40.75, -73.88], 12);
 var colorScheme = ['#ffffb2','#fed976','#feb24c','#fd8d3c','#fc4e2a','#e31a1c','#b10026'];
 var colorRamp= ['#FBFCBD', '#FCE3A7', '#FFCD8F', '#FFB57D','#FF9C6B','#FA815F', '#F5695F', '#E85462', '#D6456B', '#C23C76', '#AB337D', '#942B7F', '#802482', '#6A1C80', '#55157D', '#401073', '#291057', '#160D38', '#0A081F', '#000005'];
@@ -17,16 +21,13 @@ function onEachNeighbor(feature, layer) {
 	var popupContent = "<h3>" +
 			feature.properties.ntaname + "</h3><p>Trips: " +
 			feature.properties.trips + "</br>Trips per sqrm: " +
-			feature.properties.trips_per_sqm + "</br>Avg Trips per day: " +
-			Math.round(feature.properties.trips/3.1)/10 + "</br>Avg Trips per sqrm per day: " + 
-			Math.round(feature.properties.trips_per_sqm/3.1)/10 +"</p>" ;
+			feature.properties.trips_per_sqm + "</p>" ;
 	layer.bindPopup(popupContent);
 }
 
 
 function getJson(data) {
-	// Getting geoJSON layer abstracted into function for neater reading, takes either daily_pickups or daily_dropoffs
-
+	// Gets geoJSON, assigns to global var geoJSON, adds geoJSON to map
 	geoJSON = L.geoJSON(data,{
 		style: function(feature){
 			var trips_per_sqm_k = feature.properties.trips_per_sqm/1000;
@@ -53,20 +54,33 @@ function getJson(data) {
 }
 
 
+function updateMap() {
+	// Removes old geoJSON layer and adds a new one by calling getJSON
+	map.removeLayer(geoJSON);
+	getJson(data[p_d][dow])
+}
+
+
 $(document).ready(function() { 
-	// Initial map condition is set to pickups
+	// Initial map condition is set to pickups, all days
+	p_d = 0;
+	dow = 0;
 	getJson(daily_pickups);
 
-	// Event listener for dropdown changes. If change, removes old geoJSON layer and adds a new one
+	// 2d array holding all static GeoJSONs for easy access
+	data = [
+		[daily_pickups, mon_pickups, tue_pickups, wed_pickups, thu_pickups, fri_pickups, sat_pickups, sun_pickups],
+		[daily_dropoffs, mon_dropoffs, tue_dropoffs, wed_dropoffs, thu_dropoffs, fri_dropoffs, sat_dropoffs, sun_dropoffs]
+	];
+
+	// Event listener for dropdown changes. If change, calls updateMap()
 	$("#dropdown").change(function () {
-		let newval = $("#dropdown").val();
-		if (newval == 0) {
-			map.removeLayer(geoJSON);
-			getJson(daily_pickups);
-		} else {
-			map.removeLayer(geoJSON)
-			getJson(daily_dropoffs);
-		}
-		// Add more dropdown options and corresponding values to change handler when we have more data to display
+		p_d = $("#dropdown").val();
+		updateMap();
+	});
+
+	$("#dow-dropdown").change(function () {
+		dow = $("#dow-dropdown").val();
+		updateMap();
 	});
 });
