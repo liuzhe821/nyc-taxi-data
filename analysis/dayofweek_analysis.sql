@@ -58,7 +58,6 @@
 
 
 
-
 -- create FeatureCollection
 -- Change nta_dow_pickups_geomjson or nta_dow_dropoffs_geomjson
 -- Modify dow: 0-6, 0 is Sunday 

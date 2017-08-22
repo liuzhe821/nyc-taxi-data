@@ -18,6 +18,9 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=p
 
 
 function onEachNeighbor(feature, layer) {
+	//let intraday = feature.properties.intraday.split(","); //direct this array into google graphs, expect len 24
+	//put the google graphs into the popup.
+
 	var popupContent = "<h3>" +
 			feature.properties.ntaname + "</h3><p>Trips: " +
 			feature.properties.trips + "</br>Trips per sqrm: " +
@@ -26,9 +29,9 @@ function onEachNeighbor(feature, layer) {
 }
 
 
-function getJson(data) {
+function getJson(fed_data) {
 	// Gets geoJSON, assigns to global var geoJSON, adds geoJSON to map
-	geoJSON = L.geoJSON(data,{
+	geoJSON = L.geoJSON(fed_data,{
 		style: function(feature){
 			var trips_per_sqm_k = feature.properties.trips_per_sqm/1000;
 			var trips_per_sqm = feature.properties.trips_per_sqm;
