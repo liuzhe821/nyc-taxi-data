@@ -73,4 +73,5 @@ FROM (
     'geometry',   geomjson::jsonb,
     'properties', to_jsonb(row) - 'geomjson'
   ) AS feature
-  FROM (SELECT * FROM nta_dow_pickups_geomjson WHERE dow=6) AS row) AS features;
+  FROM (SELECT ntacode, ntaname, boroname, trips, trips_per_sqm, geomjson 
+  	FROM nta_dow_dropoffs_geomjson WHERE dow=6) AS row) AS features;
