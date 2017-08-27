@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="static_resources/main.css"/>
 
 	<script src="https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" integrity="sha512-mNqn2Wg7tSToJhvHcqfzLMU6J4mkOImSPTxVZAdo+lcPlk+GhZmYgACEe0x35K7YzW1zJ7XyJV/TT1MrdXvMcA==" crossorigin=""></script>
+	  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 </head>
 <body>
@@ -29,20 +30,25 @@
 		<option value=7> Sundays <br>
 	</select>
 
+	<div id='overall_graph'>i tried</div>
+
 	<select id="dropdown" class="styled-select">
 		<option value=0> Pickups <br>
 		<option value=1> Dropoffs <br>
+		<option value=2> Imbalance (D-P) <br>
 	</select>
+
 
 	<div id='map'></div>
 
-	<script src="static_resources/jquery-2.1.1.js"></script>
-	<script src="static_resources/main-js.js" type="text/javascript"></script>
-	<script src="static_resources/sample-geojson.js" type="text/javascript"></script>
 
-	<!-- I split the dow GeoJSONs into two files because as one file it exceeded GitHub's recommended max file size -->
-	<script src="static_resources/dow-pickups-geojson.js" type="text/javascript" async></script>
-	<script src="static_resources/dow-dropoffs-geojson.js" type="text/javascript" async></script>
+	<script src="static_resources/jquery-2.1.1.js"></script>
+	<script src="static_resources/overall_graph.js" type="text/javascript" ></script>
+	<script src="static_resources/main-js.js" type="text/javascript"></script>
+	<!-- <script src="static_resources/sample-geojson.js" type="text/javascript"></script> -->
+
+	<script src="static_resources/dow_data.js" type="text/javascript" ></script>
+
 
 </body>
 </html>
