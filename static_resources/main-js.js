@@ -49,9 +49,12 @@ function drawChart(elem, pickups, dropoffs) {
           viewWindow: {
             min: [0, 0, 0],
             max: [24, 0, 0]
-          }
+          },
+          textStyle: { fontSize: 8}
         },
-        vAxis: { title: 'Average # Trips' }
+        vAxis: { title: 'Average # Trips', textStyle: { fontSize: 8} },
+        chartArea: { left: "18%", width: "64%", height: "70%"}, 
+        legend: { textStyle: { fontSize: 8  }}
       };
 
       var container = document.getElementById(elem);
@@ -75,9 +78,12 @@ function drawImbalChart(elem, pickups, dropoffs) {
           viewWindow: {
             min: [0, 0, 0],
             max: [24, 0, 0]
-          }
+          },
+          textStyle: { fontSize: 8}
         },
-        vAxis: { title: 'Average # Trips' }
+        vAxis: { title: 'Average # Trips', textStyle: { fontSize: 8}  },
+        chartArea: { left: "18%", width: "64%", height: "70%"}, 
+        legend: { textStyle: { fontSize: 8  }}
       };
 
       var container = document.getElementById(elem);
