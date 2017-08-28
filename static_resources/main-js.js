@@ -23,10 +23,11 @@ google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawChart);
 
 
-function makeRows(arr1, arr2) {
+function makeRows(arr1, arr2, imbal) {
 	let result = [];
 	for (i = 0; i<24; i++) {
-		result[i] = [{v: [i,0,0], f: i + ':00'}, arr1[i], arr2[i]];
+		if (imbal) {result[i] = [{v: [i,0,0], f: i + ':00'}, arr2[i] - arr1[i]];}
+		else { result[i] = [{v: [i,0,0], f: i + ':00'}, arr1[i], arr2[i]]; }
 	}
 	return result;
 }
@@ -37,11 +38,37 @@ function drawChart(elem, pickups, dropoffs) {
       data.addColumn('number', 'Pickups');
       data.addColumn('number', 'Dropoffs');
 
-      data.addRows(makeRows(pickups, dropoffs));
+      data.addRows(makeRows(pickups, dropoffs, false));
 
       var options = {
         title: 'Intraday Pickups/Dropoffs',
         colors: ['#9575cd', '#33ac71'],
+        hAxis: {
+          title: 'Time of Day',
+          format: 'h:mm a',
+          viewWindow: {
+            min: [0, 0, 0],
+            max: [24, 0, 0]
+          }
+        },
+        vAxis: { title: 'Average # Trips' }
+      };
+
+      var container = document.getElementById(elem);
+      var chart = new google.visualization.ColumnChart(container);
+      chart.draw(data, options);
+    }
+
+function drawImbalChart(elem, pickups, dropoffs) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('timeofday', 'Time of Day');
+    data.addColumn('number', 'D-P');
+
+    data.addRows(makeRows(pickups, dropoffs, true));
+
+      var options = {
+        title: 'Intraday Trip Imbalance',
+        colors: ['#9575cd'],
         hAxis: {
           title: 'Time of Day',
           format: 'h:mm a',
@@ -84,7 +111,11 @@ function onEachNeighbor(feature, layer) {
 	});
 
 	layer.on('click', function(e) {
-		drawChart(chartId, feature.properties.intraday_pickups, feature.properties.intraday_dropoffs);
+		if (p_d == 2) {
+			drawImbalChart(chartId, feature.properties.intraday_pickups, feature.properties.intraday_dropoffs);
+		} else {
+			drawChart(chartId, feature.properties.intraday_pickups, feature.properties.intraday_dropoffs);
+		}
 	})
 }
 
@@ -156,11 +187,20 @@ $(document).ready(function() {
 	$("#dropdown").change(function () {
 		p_d = $("#dropdown").val();
 		updateMap();
+		if (p_d == 2) {
+			drawImbalChart("overall_graph", city_graph[0][dow], city_graph[1][dow]);
+		} else {
+			drawChart("overall_graph", city_graph[0][dow], city_graph[1][dow])
+		}
 	});
 
 	$("#dow-dropdown").change(function () {
 		dow = $("#dow-dropdown").val();
 		updateMap();
-		drawChart("overall_graph", city_graph[0][dow], city_graph[1][dow]);
+		if (p_d == 2) {
+			drawImbalChart("overall_graph", city_graph[0][dow], city_graph[1][dow]);
+		} else {
+			drawChart("overall_graph", city_graph[0][dow], city_graph[1][dow])
+		}
 	});
 });
