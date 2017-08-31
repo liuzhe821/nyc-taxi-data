@@ -26,6 +26,7 @@ i {
 	height: 25px;
 	width: 100px;
 	top: 25px;
+	z-index: 3001;
 }
 
 #dropdown {
@@ -82,9 +83,9 @@ i {
 	left: 185px;
 	top: 8px;
 	position: fixed;
-	/*width: 60%;*/
-	width: 701px;
-	font-size: .8em;
+	width: 62%;
+	/*width: 766px;*/
+	font-size: .78em;
 	border-left: solid #fcecba 5px;
 	padding-left: 5px;
 	text-align: justify;
