@@ -44,6 +44,8 @@ Additional Postgres and [R](https://www.r-project.org/) scripts for analysis are
 
 ##### 7. Website work and further analysis
 
+The files for this section are located in the static_resources/ folder (CSS/JS) and analysis/website_analysis/ folder (SQL).
+
 LIBRARIES/RESOURCES USED: The map is generated with the [Leaflet.js library](http://leafletjs.com/). Charts are generated using [Google Charts](https://developers.google.com/chart/). Show/hide arrows on the bottom right corner map are [Google Material Design Icons](https://material.io/icons/).
 
 
