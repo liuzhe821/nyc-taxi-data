@@ -82,6 +82,7 @@ NEXT STEPS
 2. Charting imbalance (inflow-outflow) at nodes: histogram of log Imb(i,t) across i
 3. Incorporate data beyond May 2016
 4. Consolidate all data into one/a few geojson for faster loading times: all the geographical data is uselessly repeated. By putting all data into one geojson (and generating heatmaps by indicating which field to use), the site would load faster. This would involve modifying SQL queries to join tables etc. This would also remove the need to run sql queries repeatedly while changing the WHERE dow= or time_period= condition
+5. Add exporting functionality to the graphs, so that users can download the data
 
 
 ## Schema
