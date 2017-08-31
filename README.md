@@ -44,16 +44,16 @@ Additional Postgres and [R](https://www.r-project.org/) scripts for analysis are
 
 ##### 7. Website work and further analysis
 
-LIBRARIES/RESOURCES USED: The map is generated with the Leaflet.js library (http://leafletjs.com/). Charts are generated using Google Charts (https://developers.google.com/chart/). Show/hide arrows on the bottom right corner map are Google Material Design Icons (https://material.io/icons/).
+LIBRARIES/RESOURCES USED: The map is generated with the [Leaflet.js library](http://leafletjs.com/). Charts are generated using [Google Charts](https://developers.google.com/chart/). Show/hide arrows on the bottom right corner map are [Google Material Design Icons](https://material.io/icons/).
 
 
-HTML/CSS: All HTML work is in NYC_taxi.html, styled with main.css. 
+HTML/CSS: All HTML work is in NYC_taxi.html, styled with main.css, located in the static_resources folder.
 1. Within the body there is the top nav bar containing the title, description, and two dropdown boxes. 
 2. Then there is the div with id 'map' that the JavaScript will populate with the Leaflet map. 
 3. Then there is the bottom right citywide intraday flow graph, with id 'overall_graph'. The overall graph can be hidden/shown with the google design icon in the div with id 'og-button'.
 
 
-JAVASCRIPT: All JavaScript is in main.js. 
+JAVASCRIPT: All JavaScript is in main.js, located in the static_resources folder.
 1. There is a set of global variables to keep track of state so that the map is updated carefully, hold data (color ramps, map, painted layer, etc). Check inline comments for specific descriptions.
 2. Then there is a number of functions, mainly to support drawing graphs (makeRows, drawChart, drawImbalChart) and to support updating the map (onEachNeighbor, getJson, updateMap).
 3. Then there is the jQuery function that runs when the DOM is ready. Within the $(document).ready() there are event listeners for the two dropdowns, which update global variables and call updateMap and draw new overall graphs when the selected dropdown option changes, a click listener for the show/hide button on the overall graph, and a window resize listener to ensure the map resizes proportionally to the window.
@@ -78,7 +78,7 @@ The two create_* files should only be run once. The queries in queries.sql will 
 
 NEXT STEPS
 
-1. Charting for forecastable intraday variation and unpredictable forecast deviations
+1. Charting for forecastable intraday variation and unpredictable forecast deviations. There exists [code to generate forecasts for 4-node network](https://github.com/victorialin898/nyc-taxi-forecasts), but the code would need to be modified for this network which is much more complex.
 2. Charting imbalance (inflow-outflow) at nodes: histogram of log Imb(i,t) across i
 3. Incorporate data beyond May 2016
 4. Consolidate all data into one/a few geojson for faster loading times: all the geographical data is uselessly repeated. By putting all data into one geojson (and generating heatmaps by indicating which field to use), the site would load faster. This would involve modifying SQL queries to join tables etc. This would also remove the need to run sql queries repeatedly while changing the WHERE dow= or time_period= condition
