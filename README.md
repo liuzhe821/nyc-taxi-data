@@ -41,6 +41,49 @@ Additional Postgres and [R](https://www.r-project.org/) scripts for analysis are
 1) Run `analysis/my_analysis.sql` without/comment-out the last section of codes (create FeatureCollection) to create tables;
 2) Run only the last section of `analysis/my_analysis.sql` (create FeatureCollection) twice, with `nta_daily_pickups_geomjson` and `nta_daily_dropoffs_geomjson` in the last row; use the results to generate file `sample-geojson.js`.
 
+
+##### 7. Website work and further analysis
+
+LIBRARIES/RESOURCES USED: The map is generated with the Leaflet.js library (http://leafletjs.com/). Charts are generated using Google Charts (https://developers.google.com/chart/). Show/hide arrows on the bottom right corner map are Google Material Design Icons (https://material.io/icons/).
+
+
+HTML/CSS: All HTML work is in NYC_taxi.html, styled with main.css. 
+1. Within the body there is the top nav bar containing the title, description, and two dropdown boxes. 
+2. Then there is the div with id 'map' that the JavaScript will populate with the Leaflet map. 
+3. Then there is the bottom right citywide intraday flow graph, with id 'overall_graph'. The overall graph can be hidden/shown with the google design icon in the div with id 'og-button'.
+
+
+JAVASCRIPT: All JavaScript is in main.js. 
+1. There is a set of global variables to keep track of state so that the map is updated carefully, hold data (color ramps, map, painted layer, etc). Check inline comments for specific descriptions.
+2. Then there is a number of functions, mainly to support drawing graphs (makeRows, drawChart, drawImbalChart) and to support updating the map (onEachNeighbor, getJson, updateMap).
+3. Then there is the jQuery function that runs when the DOM is ready. Within the $(document).ready() there are event listeners for the two dropdowns, which update global variables and call updateMap and draw new overall graphs when the selected dropdown option changes, a click listener for the show/hide button on the overall graph, and a window resize listener to ensure the map resizes proportionally to the window.
+
+GEOJSONS: All GeoJSONs are in dow_data.js. Each GeoJSON represents a different day of week, and contains that day of week's pickups, pickups per sqm, dropoffs, dropoffs per sqm, intraday pickups, intraday dropoffs, identifiers, and geographical info per NTA.
+
+
+SQL/ANALYSIS OVERVIEW: The following sql files are to be run after the steps to create and populate the db. They are located in /analysis/website_analysis
+
+create_overall_tables.sql contains the SQL commands to create tables with pickup, dropoff, and intraday pickup/dropoff data that averages all days in a given month.
+
+create_dow_tables.sql contains the SQL commands to create similar tables above, but for individual days of the week (0=Sunday). There is an extra 'dow' column which keeps day of week values separate.
+
+queries.sql contains the queries to retrieve GeoJSONS for specific months/days of week. Comment out unwanted queries and run the desired one. Modify the WHERE statements (see inline comments for specifics) to get geoJSONS for specific month and days of week.
+
+The two table creation files can be run from the command line on mac with: psql nyc-taxi-data -f filename.sql
+To run the query file and save output to a js file, run: psql nyc-taxi-data -f queries.sql > filename.js
+Use >> in place of > to append to file instead of creating new/overwriting.
+
+The two create_* files should only be run once. The queries in queries.sql will be joining the tables together to generate GeomJSONS.
+
+
+NEXT STEPS
+
+1. Charting for forecastable intraday variation and unpredictable forecast deviations
+2. Charting imbalance (inflow-outflow) at nodes: histogram of log Imb(i,t) across i
+3. Incorporate data beyond May 2016
+4. Consolidate all data into one/a few geojson for faster loading times: all the geographical data is uselessly repeated. By putting all data into one geojson (and generating heatmaps by indicating which field to use), the site would load faster. This would involve modifying SQL queries to join tables etc. This would also remove the need to run sql queries repeatedly while changing the WHERE dow= or time_period= condition
+
+
 ## Schema
 
 - `trips` table contains all yellow and green taxi trips, plus Uber pickups from April 2014 through September 2014. Each trip has a `cab_type_id`, which references the `cab_types` table and refers to one of `yellow`, `green`, or `uber`. Each trip maps to a census tract for pickup and dropoff
